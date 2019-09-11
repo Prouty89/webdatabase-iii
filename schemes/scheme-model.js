@@ -18,18 +18,34 @@ function findById(id) {
     .where({ id }); 
 }
 
-function findSteps() {
-    return db() 
+function findSteps(id) {
+    return db('steps')
+        .join('schemes', 
+              'schemes.id', 
+              'steps.scheme_id'
+        )
+        .select(
+              'steps.id',
+              'schemes.scheme_name',
+              'steps.step_number',
+              'steps.instructions',
+        )
+        .where('schemes.id', id);
 }
 
-function add() {
-    return db() 
+function add(scheme) {
+    return db('schemes')
+        .insert(scheme); 
 }
 
-function update() {
-    return db() 
+function update(changes, id) {
+    return db('schemes')
+        .where({ id })
+        .update(changes); 
 }
 
-function remove() {
-    return db() 
+function remove(id) {
+    return db('schemes')
+        .where({ id })
+        .del(); 
 }
